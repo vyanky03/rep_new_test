@@ -1,0 +1,29 @@
+select date, Referrals from [Q3_Sikka data];
+
+--finding the sum of referrals in the month of october
+select sum(referrals) as sum_of_referrals_in_oct
+from [Q3_Sikka data]
+where month(date) = 10;
+
+--finding the average of referrals in the month of october
+select avg(referrals) as avg_of_referrals_in_oct
+from [Q3_Sikka data]
+where month(date) = 10;
+
+--calculating the referrals for november as it has 30 days too
+select round(avg_of_referrals_in_oct*30, 2) as predicted_referrals
+from(
+select avg(referrals) as avg_of_referrals_in_oct
+from [Q3_Sikka data]
+where month(date) = 10)
+t
+
+--dividing the referrals for november by 2 will give referrals for first 15 days
+select round(predicted_referrals*0.5, 2) as predicted_referrals_for_first_15_days
+from(
+select round(avg_of_referrals_in_oct*30, 2) as predicted_referrals
+from(
+select avg(referrals) as avg_of_referrals_in_oct
+from [Q3_Sikka data]
+where month(date) = 10)
+t) t1
